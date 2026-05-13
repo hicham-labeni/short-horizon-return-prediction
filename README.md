@@ -1,9 +1,9 @@
-# Exploratory Study of Short-Horizon Return Prediction
+# Baseline Study of Short-Horizon Equity Return Forecasting
 
-Exploratory quantitative study of short-horizon equity return prediction using lagged-return features and linear regression models.
+Exploratory quantitative study of short-horizon equity return dynamics using lagged-return features and linear baseline models.
 
 The objective of this project is methodological rather than performance-driven.  
-The analysis focuses on evaluating whether simple lag-based features contain weak predictive information under chronological validation settings.
+The analysis focuses on evaluating whether simple lag-based features contain weak but persistent statistical structure under chronological validation settings.
 
 ---
 
@@ -11,11 +11,11 @@ The analysis focuses on evaluating whether simple lag-based features contain wea
 
 Main objectives:
 
-- explore short-term return predictability
+- explore short-term return forecasting signals
 - evaluate the stability of weak signals over time
 - avoid look-ahead bias in feature construction and validation
 - compare interpretable linear baseline models
-- study predictive behavior under walk-forward evaluation
+- study signal stability under walk-forward evaluation
 
 The workflow emphasizes chronological validation and basic leakage prevention techniques commonly used in financial time-series analysis.
 
@@ -57,7 +57,7 @@ The exploratory analysis highlights several common financial time-series propert
 - noisy short-term returns
 - volatility clustering
 - heavy-tailed return distributions
-- unstable predictive relationships across market periods
+- unstable statistical relationships across market periods
 
 ---
 
@@ -102,7 +102,7 @@ Evaluation metric:
 
 - correlation between predicted and realized returns
 
-Correlation was used to evaluate whether models capture directional structure rather than minimizing prediction error magnitude.
+Correlation between predicted and realized returns was used as a simple proxy for directional alignment and signal consistency across periods, rather than minimizing prediction error magnitude.
 
 ---
 
@@ -110,13 +110,13 @@ Correlation was used to evaluate whether models capture directional structure ra
 
 Main observations from the experiments:
 
-- predictive relationships remain weak overall
+- statistical relationships remain weak overall
 - Ridge regression produced slightly more stable results than OLS in some periods
-- Lasso regularization removed most of the weak distributed signal
-- adding rolling volatility did not materially improve predictive performance
+- under the selected regularization strength, Lasso frequently collapsed toward near-zero predictions, suggesting that the weak signal was too diffuse to survive sparse regularization
+- adding rolling volatility did not materially improve forecasting performance
 - walk-forward results varied significantly across market periods
 
-Overall, the results are consistent with the low signal-to-noise nature of short-horizon return forecasting.
+Overall, the results are consistent with the low signal-to-noise nature of short-horizon equity return forecasting.
 
 ---
 
@@ -129,7 +129,7 @@ This project has several important limitations:
 - linear modeling assumptions
 - no hyperparameter optimization
 - no transaction cost modeling
-- no statistical significance testing
+- no portfolio construction or trading strategy layer
 - no explicit regime detection framework
 
 As a result, the study should be viewed as an exploratory baseline analysis rather than a production-ready forecasting system.
@@ -155,4 +155,3 @@ Possible future improvements include:
 README.md
 ols_ridge_lasso_walkforward.ipynb
 requirements.txt
-```
