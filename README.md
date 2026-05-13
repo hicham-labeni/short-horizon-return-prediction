@@ -1,29 +1,29 @@
-# Short-Horizon Return Prediction Research
+# Exploratory Study of Short-Horizon Return Prediction
 
-Research-oriented exploratory study of weak predictability in short-horizon equity returns using lagged-return features and linear models.
+Exploratory quantitative study of short-horizon equity return prediction using lagged-return features and linear regression models.
 
 The objective of this project is methodological rather than performance-driven.  
-The study investigates whether minimal leakage-aware feature engineering pipelines can detect weak predictive structure in financial time-series under realistic validation constraints.
+The analysis focuses on evaluating whether simple lag-based features contain weak predictive information under chronological validation settings.
 
 ---
 
-# Research Goals
+# Project Goals
 
 Main objectives:
 
-- test short-memory predictability hypotheses
-- evaluate signal stability across regimes
-- avoid look-ahead bias
-- benchmark interpretable linear models
-- study weak-signal behavior under chronological validation
+- explore short-term return predictability
+- evaluate the stability of weak signals over time
+- avoid look-ahead bias in feature construction and validation
+- compare interpretable linear baseline models
+- study predictive behavior under walk-forward evaluation
 
-The workflow follows conservative quantitative research practices commonly used in early-stage alpha research.
+The workflow emphasizes chronological validation and basic leakage prevention techniques commonly used in financial time-series analysis.
 
 ---
 
 # Dataset
 
-Daily OHLCV market data for Apple (AAPL) obtained from Yahoo Finance.
+Daily OHLCV market data for Apple (AAPL) downloaded from Yahoo Finance.
 
 Period covered:
 
@@ -37,42 +37,62 @@ Variables include:
 - Close
 - Volume
 
-Returns are computed from closing prices to improve statistical stability and stationarity properties.
+Daily returns are computed from closing prices to obtain a more stationary series for modeling.
+
+---
+
+# Exploratory Data Analysis (EDA)
+
+The notebook includes several exploratory analyses to better understand the structure of the financial time series:
+
+- closing price evolution over time
+- daily return time series visualization
+- return distribution analysis
+- rolling mean and rolling volatility analysis
+- lagged-return feature inspection
+- walk-forward performance visualization
+
+The exploratory analysis highlights several common financial time-series properties:
+
+- noisy short-term returns
+- volatility clustering
+- heavy-tailed return distributions
+- unstable predictive relationships across market periods
 
 ---
 
 # Feature Engineering
 
-Constructed predictors:
+Constructed features:
 
 - lag1 return
 - lag2 return
 - lag3 return
-- rolling 20-day volatility
+- rolling 20-day return volatility
 
-Target:
+Prediction target:
 
 - next-day return
 
-All features are built using strictly forward-looking alignment to prevent look-ahead bias.
+Lagged variables and rolling statistics are constructed using only past information in order to avoid look-ahead bias.
 
 ---
 
 # Validation Methodology
 
-Validation protocol:
+Validation approach:
 
 - chronological train/test split
-- expanding-window walk-forward validation
-- yearly out-of-sample evaluation windows
+- expanding-window walk-forward evaluation
+- yearly out-of-sample testing windows
 
-Random shuffling was intentionally avoided due to temporal dependence and non-stationarity in financial data.
+Random shuffling was intentionally avoided because financial time-series exhibit temporal dependence and non-stationarity.
 
 ---
 
 # Models Evaluated
 
-The following baseline models were benchmarked:
+The following linear baseline models were tested:
 
 - Ordinary Least Squares (OLS)
 - Ridge Regression
@@ -80,47 +100,52 @@ The following baseline models were benchmarked:
 
 Evaluation metric:
 
-- correlation(predictions, realized returns)
+- correlation between predicted and realized returns
 
-Correlation is preferred over MSE because directional structure is more relevant in weak-signal financial prediction settings.
+Correlation was used to evaluate whether models capture directional structure rather than minimizing prediction error magnitude.
 
 ---
 
 # Main Findings
 
-Key observations:
+Main observations from the experiments:
 
-- predictive structure remains weak
-- Ridge slightly stabilizes estimates relative to OLS
-- Lasso removes most weak distributed signal
-- volatility features provide limited incremental value
-- predictive correlations vary substantially across market regimes
+- predictive relationships remain weak overall
+- Ridge regression produced slightly more stable results than OLS in some periods
+- Lasso regularization removed most of the weak distributed signal
+- adding rolling volatility did not materially improve predictive performance
+- walk-forward results varied significantly across market periods
 
-The results are consistent with the low signal-to-noise nature of short-horizon financial forecasting.
+Overall, the results are consistent with the low signal-to-noise nature of short-horizon return forecasting.
 
 ---
 
 # Limitations
 
-Current limitations include:
+This project has several important limitations:
 
-- single-asset dataset
-- simple feature space
+- single-asset analysis
+- relatively small feature space
 - linear modeling assumptions
 - no hyperparameter optimization
-- no nonlinear interaction modeling
+- no transaction cost modeling
+- no statistical significance testing
+- no explicit regime detection framework
+
+As a result, the study should be viewed as an exploratory baseline analysis rather than a production-ready forecasting system.
 
 ---
 
 # Potential Extensions
 
-Future research directions:
+Possible future improvements include:
 
-- multi-asset cross-sectional analysis
-- nonlinear models
-- regime-aware architectures
+- multi-asset analysis
+- nonlinear machine learning models
+- rolling retraining procedures
+- regime-aware modeling approaches
 - alternative volatility estimators
-- multi-horizon prediction frameworks
+- statistical significance and robustness testing
 
 ---
 
@@ -130,3 +155,4 @@ Future research directions:
 README.md
 ols_ridge_lasso_walkforward.ipynb
 requirements.txt
+```
